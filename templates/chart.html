@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
+    <title>Bar Chart</title>
+    <!-- Plotly JS CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Data Table</h1>
+    {% if columns %}
+        <table class="fl-table" border="1">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in uploaded_dataframe.iterrows() %}
+                    <tr>
+                        {% for column in columns %}
+                            <td>{{ row[column] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h1>Configure Chart</h1>
+    <form method="post" id="chartForm">
+        <label for="x_column">X-axis Column:</label>
+        <select name="x_column" id="x_column" class="form-select" aria-label="Default select example" required >
+            {% for column in columns %}
+                <option value="{{ column }}" {% if column == selected_x_column %}selected{% endif %}>{{ column }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="y_column">Y-axis Column:</label>
+        <select name="y_column" id="y_column" required>
+            {% for column in columns %}
+                <option value="{{ column }}" {% if column == selected_y_column %}selected{% endif %}>{{ column }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Generate Chart">
+    </form>
+
+    {% if chart_json %}
+        <h1>Bar Chart</h1>
+        <div id="chart"></div>
+        <script>
+            // Parse the Plotly JSON from Flask and render the chart
+            var chartJson = {{ chart_json | safe }};
+            Plotly.newPlot('chart', chartJson.data, chartJson.layout);
+
+            // Set the selected columns in the dropdowns
+            var xColumnDropdown = document.getElementById('x_column');
+            var yColumnDropdown = document.getElementById('y_column');
+            var selectedXColumn = "{{ selected_x_column }}";
+            var selectedYColumn = "{{ selected_y_column }}";
+
+            // Iterate through the options and set the selected attribute
+            for (var i = 0; i < xColumnDropdown.options.length; i++) {
+                if (xColumnDropdown.options[i].value === selectedXColumn) {
+                    xColumnDropdown.options[i].selected = true;
+                }
+            }
+
+            for (var i = 0; i < yColumnDropdown.options.length; i++) {
+                if (yColumnDropdown.options[i].value === selectedYColumn) {
+                    yColumnDropdown.options[i].selected = true;
+                }
+            }
+        </script>
+    {% endif %}
+</body>
+</html>
