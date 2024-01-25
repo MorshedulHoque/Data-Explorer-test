@@ -1,0 +1,25 @@
+{% if unique_values_df is defined %}
+        <h1>Unique Values Table</h1>
+        <table class="unique_values_table" border="1">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Unique Values</th>
+                    <th>Top Value</th>
+                    <th>Frequency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in unique_values_df.iterrows() %}
+                    <tr>
+                        <td>{{ row['Column'] }}</td>
+                        <td>{{ row['Unique Values'] }}</td>
+                        <td>{{ row['Top Value'] }}</td>
+                        <td>{{ row['Frequency'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No unique values information available.</p>
+    {% endif %}

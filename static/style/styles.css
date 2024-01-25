@@ -35,6 +35,11 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #45a049;
 }
+.data_types_table{
+    width: 50%; /* Adjust the width as needed */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 .fl-table {
     border-radius: 10px; /* Adjust the border radius for curved corners */
     font-size: 12px;
@@ -84,7 +89,7 @@ input[type="submit"]:hover {
     .fl-table td, .fl-table th {
         padding: 10px; /* Adjust padding for better spacing */
         height: 50px; /* Decrease height for smaller screens */
-        font-size: 13px;
+        font-size: 13px; 
     }
 
     .fl-table tbody td {

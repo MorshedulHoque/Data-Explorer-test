@@ -1,0 +1,33 @@
+{% if describe_df is defined %}
+        <h1>Descriptive Statistics</h1>
+        <table class="fl-table" border="1">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Count</th>
+                    <th>Mean</th>
+                    <th>Std</th>
+                    <th>Min</th>
+                    <th>25%</th>
+                    <th>50%</th>
+                    <th>75%</th>
+                    <th>Max</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in describe_df.iterrows() %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ row['count'] }}</td>
+                        <td>{{ row['mean'] }}</td>
+                        <td>{{ row['std'] }}</td>
+                        <td>{{ row['min'] }}</td>
+                        <td>{{ row['25%'] }}</td>
+                        <td>{{ row['50%'] }}</td>
+                        <td>{{ row['75%'] }}</td>
+                        <td>{{ row['max'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
